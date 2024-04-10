@@ -36,6 +36,15 @@ comparar x y
     | sumaUltimos2Digitos x < sumaUltimos2Digitos y = 1
     | sumaUltimos2Digitos x == sumaUltimos2Digitos y = 0
 
+comparar2 :: Int -> Int -> Int
+comparar2 x y = (compararAux (sumaUltimos2Digitos x) (sumaUltimos2Digitos y))
+
+compararAux :: Int -> Int -> Int
+compararAux x y
+    | x > y = -1
+    | x < y = 1
+    | x == y = 0
+
 sumaUltimos2Digitos :: Int -> Int
 sumaUltimos2Digitos x = digitoDecenas x + digitoUnidades x
 

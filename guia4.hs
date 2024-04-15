@@ -85,6 +85,7 @@ iterarCapicua x i
 parEsCapicua x i = iesimoDigito x i == iesimoDigito x (cantDigitos x - i + 1)
 
 -- 10 : En proceso
+-- TO DO: Terminar a
 f1 :: Int -> Int
 f1 n = f1Iter 0 n
 

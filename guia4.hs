@@ -8,8 +8,13 @@ fibonacci 1 = 1
 fibonacci n = fibonacci(n - 1) + fibonacci(n - 2)
 
 -- 2
-parteEntera :: Float -> Int
-parteEntera x = -1
+parteEntera :: Float -> Float
+parteEntera x = x - parteFlotante x
+
+parteFlotante :: Float -> Float
+parteFlotante x
+    | x < 1 = x
+    | otherwise = parteFlotante (x-1)
 
 -- 3
 esDivisible  :: Int -> Int -> Bool
@@ -50,7 +55,7 @@ todosDigitosIguales x = iterarDigitosIguales x 1
 
 iterarDigitosIguales :: Int -> Int -> Bool
 iterarDigitosIguales x i
-    | x < elevar 10 i = iesimoDigito x i == iesimoDigito x 1
+    |  x < elevar 10 i = iesimoDigito x i == iesimoDigito x 1
     | otherwise = iesimoDigito x i == iesimoDigito x 1 && iterarDigitosIguales x (i+1)
 
 -- 8
@@ -84,12 +89,45 @@ iterarCapicua x i
 
 parEsCapicua x i = iesimoDigito x i == iesimoDigito x (cantDigitos x - i + 1)
 
--- 10 : En proceso
--- TO DO: Terminar a
+-- 10
 f1 :: Int -> Int
-f1 n = f1Iter 0 n
+f1 1 = 2
+f1 n = elevar 2 n + f1 (n-1)
 
-f1Iter :: Int -> Int -> Int
-f1Iter i n
-    | i == n = elevar 2 i
-    | otherwise = elevar 2 i + f1Iter (i+1) n
+f2 :: Int -> Float -> Float
+f2 1 q = q
+f2 n q = powFloat q n + f2 (n-1) q
+
+powFloat :: Float -> Int -> Float
+powFloat x 0 = 1
+powFloat x y = x * powFloat x (y-1)
+
+f3 :: Int -> Float -> Float
+f3 n q = f2 (2*n) q
+
+f4 :: Int -> Float -> Float
+f4 n q = f3 n q - f2 (n-1) q
+
+-- 11
+eAprox :: Int -> Float
+eAprox 0 = 1
+eAprox n = 1 / fromIntegral (factorial n) + eAprox (n-1)
+
+factorial :: Int -> Int
+factorial 0 = 1
+factorial 1 = 1
+factorial n = n * factorial (n-1)
+
+-- 12
+a :: Int -> Float
+a 1 = 2
+a n = 2 + 1 / (a (n-1))
+
+raizDe2Aprox :: Int -> Float
+raizDe2Aprox n = a n - 1
+
+-- 13 
+-- Pendiente
+f :: Int -> Int -> Int
+f n m = -1
+

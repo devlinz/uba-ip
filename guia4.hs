@@ -154,18 +154,36 @@ sumaRacionalesAux n 1 = fromIntegral n
 sumaRacionalesAux n m = fromIntegral n / fromIntegral m + sumaRacionalesAux n (m-1)
 
 -- 16
+-- a
 menorDivisor :: Int ->  Int
-menorDivisor n = iterarMenorDivisor n 2
+menorDivisor n = menorDivisorDesde n 2
 
-iterarMenorDivisor :: Int -> Int -> Int
-iterarMenorDivisor n i
+menorDivisorDesde :: Int -> Int -> Int
+menorDivisorDesde n i
+    | n < i = n
     | mod n i == 0 = i
-    | otherwise = iterarMenorDivisor n (i+1)
+    | otherwise = menorDivisorDesde n (i+1)
 
+-- b
 esPrimo :: Int -> Bool
 esPrimo 1 = True
 esPrimo n
     | n > 1 = menorDivisor n == n
     | otherwise = esPrimo (0 - n)
 
--- Pendiente coprimos etc
+-- c
+sonCoprimos :: Int -> Int -> Bool
+sonCoprimos x y = mismoMenorDivisorDesde x y 2
+
+mismoMenorDivisorDesde :: Int -> Int -> Int -> Bool
+mismoMenorDivisorDesde x y i
+    | menorDivisorDesde x i == menorDivisorDesde y i = True
+    | menorDivisorDesde x i == x && menorDivisorDesde y i == y = False
+    | otherwise = mismoMenorDivisorDesde x y (mayorEntre (menorDivisorDesde x i) (menorDivisorDesde y i)) 
+
+mayorEntre :: Int -> Int -> Int
+mayorEntre x y
+    | x < y = y
+    | otherwise = x
+
+-- d: Pendiente

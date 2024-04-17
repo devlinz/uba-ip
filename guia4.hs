@@ -239,9 +239,13 @@ esSumaInicialDePrimosDesdeHasta n i m
 -- 21
 -- Pendiente
 pitagoras :: Integer ->  Integer ->  Integer ->  Integer 
-pitagoras m n r = -1
+pitagoras m n r =  -1
 
--- Pendiente: ContadorPitagoras
+-- contadorPitagoras
+-- cPitAux m -> m-1 -> 1
+
+-- contadorPitagorasAux
+-- m cte, n -> n-1 -> 1
 
 valePitagoras :: Integer -> Integer -> Integer -> Bool
 valePitagoras p q r = ((p*p) + (q*q)) == (r*r)

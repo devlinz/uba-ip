@@ -126,8 +126,46 @@ a n = 2 + 1 / (a (n-1))
 raizDe2Aprox :: Int -> Float
 raizDe2Aprox n = a n - 1
 
--- 13 
--- Pendiente
+-- 13
 f :: Int -> Int -> Int
-f n m = -1
+f 1 m = fAux 1 m
+f n m = fAux n m + f (n-1) m
 
+fAux :: Int -> Int -> Int
+fAux n 1 = 1
+fAux n m =  elevar n m + f n (m-1)
+
+-- 14
+sumaPotencias :: Int -> Int -> Int -> Int 
+sumaPotencias q 1 m = sumaPotenciasAux q 1 m
+sumaPotencias q n m = sumaPotenciasAux q n m + sumaPotencias q (n-1) m
+
+sumaPotenciasAux :: Int -> Int -> Int -> Int 
+sumaPotenciasAux q n 1 = elevar q (n+1)
+sumaPotenciasAux q n m = elevar q (n+m) + sumaPotenciasAux q n (m-1)
+
+-- 15
+sumaRacionales :: Int -> Int -> Float
+sumaRacionales 1 m = sumaRacionalesAux 1 m
+sumaRacionales n m = sumaRacionalesAux n m + sumaRacionales (n-1) m
+
+sumaRacionalesAux :: Int -> Int -> Float
+sumaRacionalesAux n 1 = fromIntegral n
+sumaRacionalesAux n m = fromIntegral n / fromIntegral m + sumaRacionalesAux n (m-1)
+
+-- 16
+menorDivisor :: Int ->  Int
+menorDivisor n = iterarMenorDivisor n 2
+
+iterarMenorDivisor :: Int -> Int -> Int
+iterarMenorDivisor n i
+    | mod n i == 0 = i
+    | otherwise = iterarMenorDivisor n (i+1)
+
+esPrimo :: Int -> Bool
+esPrimo 1 = True
+esPrimo n
+    | n > 1 = menorDivisor n == n
+    | otherwise = esPrimo (0 - n)
+
+-- Pendiente coprimos etc

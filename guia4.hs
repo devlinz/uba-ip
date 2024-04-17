@@ -235,3 +235,13 @@ esSumaInicialDePrimosDesdeHasta n i m
 
 -- 20
 -- Pendiente
+
+-- 21
+-- Pendiente
+pitagoras :: Integer ->  Integer ->  Integer ->  Integer 
+pitagoras m n r = -1
+
+-- Pendiente: ContadorPitagoras
+
+valePitagoras :: Integer -> Integer -> Integer -> Bool
+valePitagoras p q r = ((p*p) + (q*q)) == (r*r)

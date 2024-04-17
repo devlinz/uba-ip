@@ -234,18 +234,35 @@ esSumaInicialDePrimosDesdeHasta n i m
     | otherwise = esSumaInicialDePrimosDesdeHasta (n - nEsimoPrimo i) (i+1) m
 
 -- 20
--- Pendiente
+tomarValorMax :: Int -> Int -> Int
+tomarValorMax n1 n2
+    | n1 > n2 = tomarValorMax n2 n1
+    | n1 < 1 = tomarValorMax 1 n2
+    | otherwise = tomarValorMaxComparar n1 n2 n1
+
+tomarValorMaxComparar :: Int -> Int -> Int -> Int
+tomarValorMaxComparar n1 n2 maxHastaAhora
+    | n1 > n2 = maxHastaAhora
+    | sumaDivisoresDesde n1 1 > sumaDivisoresDesde maxHastaAhora 1 = tomarValorMaxComparar (n1 + 1) n2 n1
+    | otherwise = tomarValorMaxComparar (n1 + 1) n2 maxHastaAhora
+
+sumaDivisoresDesde :: Int -> Int -> Int
+sumaDivisoresDesde x i
+    | x == i = 1
+    | mod x i == 0 = 1 + sumaDivisoresDesde x (i+1)
+    | otherwise = 0 + sumaDivisoresDesde x (i+1)
 
 -- 21
--- Pendiente
-pitagoras :: Integer ->  Integer ->  Integer ->  Integer 
-pitagoras m n r =  -1
+pitagoras :: Integer -> Integer -> Integer -> Integer
+pitagoras m n r
+    | m < 0 = 0
+    | otherwise = pitagorasAux m n r + pitagoras (m-1) n r
 
--- contadorPitagoras
--- cPitAux m -> m-1 -> 1
-
--- contadorPitagorasAux
--- m cte, n -> n-1 -> 1
+pitagorasAux :: Integer -> Integer -> Integer -> Integer
+pitagorasAux m n r
+    | n < 0 = 0
+    | valePitagoras m n r = 1 + pitagorasAux m (n-1) r
+    | otherwise = pitagorasAux m (n-1) r
 
 valePitagoras :: Integer -> Integer -> Integer -> Bool
-valePitagoras p q r = ((p*p) + (q*q)) == (r*r)
+valePitagoras p q r = ((p*p) + (q*q)) <= (r*r)

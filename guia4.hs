@@ -186,4 +186,12 @@ mayorEntre x y
     | x < y = y
     | otherwise = x
 
--- d: Pendiente
+-- d
+nEsimoPrimo :: Int -> Int
+nEsimoPrimo n = nEsimoPrimoDesde n 2
+
+nEsimoPrimoDesde :: Int -> Int -> Int
+nEsimoPrimoDesde n x
+    | esPrimo x && n == 1 = x
+    | esPrimo x = nEsimoPrimoDesde (n-1) (x+1)
+    | otherwise = nEsimoPrimoDesde n (x+1)

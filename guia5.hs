@@ -1,7 +1,3 @@
-import Language.Haskell.TH (prim)
-import Data.Map.Internal.Debug (ordered)
-import System.Console.Haskeline (Interrupt)
-import System.Win32 (se_GROUP_DEFAULTED)
 -- Ejercicio 1
 -- 1
 longitud :: [t] -> Integer
@@ -156,3 +152,141 @@ minimo (primero:segundo:restoLista)
     | primero <= segundo = minimo (primero:restoLista)
     | otherwise = minimo (segundo:restoLista)
 
+-- Ejercicio 4a
+-- a
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [] = []
+sacarBlancosRepetidos [unico] = [unico]
+sacarBlancosRepetidos (primero:segundo:restoLista)
+    | primero == ' ' && segundo == ' ' = sacarBlancosRepetidos (primero:restoLista)
+    | otherwise = primero : sacarBlancosRepetidos (segundo:restoLista)
+
+-- b
+contarPalabras :: [Char] -> Integer
+contarPalabras [] = 0
+contarPalabras lista = 1 + (contarPalabrasAux (sacarBlancoInicio (sacarBlancoFin (sacarBlancosRepetidos lista))))
+
+contarPalabrasAux :: [Char] -> Integer
+contarPalabrasAux [] = 0
+contarPalabrasAux (primero:restoLista)
+    | primero == ' ' = 1 + contarPalabrasAux restoLista
+    | otherwise = contarPalabrasAux restoLista
+
+sacarBlancoInicio :: [Char] -> [Char]
+sacarBlancoInicio [] = []
+sacarBlancoInicio (primero:restoLista)
+    | primero == ' ' = restoLista
+    | otherwise = (primero:restoLista)
+
+sacarBlancoFin :: [Char] -> [Char]
+sacarBlancoFin [] = []
+sacarBlancoFin [unico]
+    | unico == ' ' = []
+    | otherwise = [unico]
+sacarBlancoFin (primero:restoLista) = (primero:sacarBlancoFin restoLista)
+
+-- c
+palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras oracion = (primeraPalabra oracion) : palabras (sacarPrimeraPalabra oracion)
+
+primeraPalabra :: [Char] -> [Char]
+primeraPalabra [] = []
+primeraPalabra oracion = primeraPalabraAux (sacarBlancoInicio (sacarBlancoFin (sacarBlancosRepetidos oracion)))
+
+primeraPalabraAux :: [Char] -> [Char]
+primeraPalabraAux [] = []
+primeraPalabraAux (letra1:restoOracion)
+    | letra1 == ' ' = []
+    | otherwise = letra1 : primeraPalabraAux restoOracion
+
+sacarPrimeraPalabra :: [Char] -> [Char]
+sacarPrimeraPalabra [] = []
+sacarPrimeraPalabra oracion = sacarPrimeraPalabraAux (sacarBlancoInicio (sacarBlancoFin (sacarBlancosRepetidos oracion)))
+
+sacarPrimeraPalabraAux :: [Char] -> [Char]
+sacarPrimeraPalabraAux [] = []
+sacarPrimeraPalabraAux (letra1:restoOracion)
+    | letra1 == ' ' = restoOracion
+    | otherwise = sacarPrimeraPalabraAux restoOracion
+
+-- d
+palabraMasLarga :: [Char] -> [Char]
+palabraMasLarga [] = []
+palabraMasLarga oracion
+    | sacarPrimeraPalabra oracion == "" = primeraPalabra oracion
+    | longitud (primeraPalabra oracion) < longitud (primeraPalabra (sacarPrimeraPalabra oracion)) = palabraMasLarga (sacarPrimeraPalabra oracion)
+    | otherwise = palabraMasLarga ((primeraPalabra oracion) ++ [' '] ++ (sacarPrimeraPalabra (sacarPrimeraPalabra oracion)))
+
+-- e
+aplanar :: [[Char]] -> [Char]
+aplanar [] = []
+aplanar (palabra1:restoPalabras) = palabra1 ++ aplanar restoPalabras
+
+-- f
+aplanarConBlancos :: [[Char]] -> [Char]
+aplanarConBlancos [] = []
+aplanarConBlancos [unicaPalabra] = unicaPalabra
+aplanarConBlancos (palabra1:restoPalabras) = palabra1 ++ " " ++ aplanarConBlancos restoPalabras
+
+-- g
+aplanarConNBlancos :: Integer -> [[Char]] -> [Char]
+aplanarConNBlancos _ [] = []
+aplanarConNBlancos _ [unicaPalabra] = unicaPalabra
+aplanarConNBlancos n (palabra1:restoPalabras) = palabra1 ++ (nBlancos n) ++ (aplanarConNBlancos n restoPalabras)
+
+nBlancos :: Integer -> [Char]
+nBlancos n
+    | n <= 0 = []
+    | otherwise = ' ' : nBlancos (n-1)
+
+-- Ejercicio 4b
+type Texto = [Char]
+
+palabras2 :: Texto -> [Texto]
+palabras2 oracion = palabras oracion
+
+-- etc.
+
+-- Ejercicio 5
+-- 1
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada [unicoNumero] = [unicoNumero]
+sumaAcumulada (primero:segundo:restoNumeros) = primero : sumaAcumulada ((primero + segundo):restoNumeros)
+
+-- 2
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos [unicoNumero] = [descomponerNEnPrimosDesde unicoNumero 1]
+descomponerEnPrimos (primero:restoNumeros) = (descomponerNEnPrimosDesde primero 1) : descomponerEnPrimos restoNumeros
+
+descomponerNEnPrimosDesde :: Integer -> Integer -> [Integer]
+descomponerNEnPrimosDesde n i
+    | n <= 1 = []
+    | mod n (nEsimoPrimo i) == 0 = (nEsimoPrimo i) : descomponerNEnPrimosDesde (div n (nEsimoPrimo i)) 1
+    | otherwise = descomponerNEnPrimosDesde n (i+1)
+
+menorDivisor :: Integer ->  Integer
+menorDivisor n = menorDivisorDesde n 2
+
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde n i
+    | n < i = n
+    | mod n i == 0 = i
+    | otherwise = menorDivisorDesde n (i+1)
+
+esPrimo :: Integer -> Bool
+esPrimo 1 = True
+esPrimo n
+    | n > 1 = menorDivisor n == n
+    | otherwise = esPrimo (0 - n)
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo n = nEsimoPrimoDesde n 2
+
+nEsimoPrimoDesde :: Integer -> Integer -> Integer
+nEsimoPrimoDesde n x
+    | esPrimo x && n == 1 = x
+    | esPrimo x = nEsimoPrimoDesde (n-1) (x+1)
+    | otherwise = nEsimoPrimoDesde n (x+1)

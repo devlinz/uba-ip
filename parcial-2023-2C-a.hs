@@ -107,4 +107,19 @@ vallaMenosVencida ((equipo1,arquero1):(equipo2,arquero2):restoEquipos) (golesDel
     | golesDelArquero1 > golesDelArquero2 = vallaMenosVencida ((equipo2,arquero2):restoEquipos) (golesDelArquero2:restoGoles)
     | otherwise = vallaMenosVencida ((equipo1,arquero1):restoEquipos) (golesDelArquero1:restoGoles)
 
--- Pendiente: Testing
+-- Testing
+test1_12 = atajaronSuplentes [("Equipo1","Arquero1"),("Equpo2","Arquero2"),("Equipo3","Arquero3")] [1,7,5] 25
+-- Espero 25-1-7-5 = 12
+
+test2_valido = equiposValidos [("Equipo1","Arquero1"),("Equpo2","Arquero2"),("Equipo3","Arquero3")]
+-- Espero True
+test2_equipoRepetido = equiposValidos [("Equipo1","Arquero1"),("Equipo2","Arquero2"),("Equipo1","Arquero3")]
+test2_arqueroRepetido = equiposValidos [("Equipo1","Arquero1"),("Equipo2","Arquero2"),("Equipo3","Arquero2")]
+test2_mismoNombre = equiposValidos [("Equipo1","Arquero2"),("Equipo2","Equipo2")]
+-- Espero False
+
+test3_estandar = porcentajeDeGoles "Arquero2" [("Equipo1","Arquero1"),("Equpo2","Arquero2"),("Equipo3","Arquero3")] [1,7,5]
+-- Espero 7 / (1+7+5) = 53%
+
+test4_estandar = vallaMenosVencida [("Equipo1","Arquero1"),("Equpo2","Arquero2"),("Equipo3","Arquero3")] [1,7,5]
+test4_empatados = vallaMenosVencida [("Equipo1","Arquero1"),("Equpo2","Arquero2"),("Equipo3","Arquero3")] [7,5,5]

@@ -6,11 +6,11 @@ type Precios = [(String,Float)]
 -- Ejercicio 1
 generarStock :: Mercaderias -> Stock
 generarStock [] = []
-generarStock productos =  generarStockAux productos []
+generarStock productos =  actualizarStockExistente productos []
 
-generarStockAux :: Mercaderias -> Stock -> Stock
-generarStockAux [] stockContado = stockContado
-generarStockAux (producto1:restoProductos) stockContado = generarStockAux restoProductos (agregarProducto producto1 stockContado)
+actualizarStockExistente :: Mercaderias -> Stock -> Stock
+actualizarStockExistente [] stockPrevio = stockPrevio
+actualizarStockExistente (producto1:restoProductos) stockPrevio = actualizarStockExistente restoProductos (agregarProducto producto1 stockPrevio)
 
 agregarProducto :: String -> Stock -> Stock
 agregarProducto producto [] = [(producto,1)]

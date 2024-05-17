@@ -1,6 +1,5 @@
 import Parcial24TMb
 import Test.HUnit
-import GHC.Generics (prec)
 
 mercaderiaSinRepetir = ["Banana","Manzana","Naranja","Pera","Frutilla"]
 mercaderiaConDescuento = ["Banana","Manzana","Manzana","Naranja","Banana","Pera","Banana","Banana","Banana","Banana","Banana","Banana","Banana","Banana","Banana"]

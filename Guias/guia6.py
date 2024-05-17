@@ -135,12 +135,10 @@ def monitorear_viaje (año: int, objetivo: int) -> None:
         print("Viajo un año al pasado, estamos en el año: " + año)
 
 def ir_con_aristoteles (año: int) -> None:
-    while (año >= -384):
+    while (año >= -364):
         año = año - 20
         print("Viajo 20 años al pasado, estamos en el año: " + año)
-    #if (año - 20 + )
+    # imprimir el último solamente si está más cerca que el anterior
 
 def diferencia (n1: int, n2: int) -> int:
     return -1
-
-# Ejercicio 7: Pendiente

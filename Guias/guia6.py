@@ -139,6 +139,3 @@ def ir_con_aristoteles (año: int) -> None:
         año = año - 20
         print("Viajo 20 años al pasado, estamos en el año: " + año)
     # imprimir el último solamente si está más cerca que el anterior
-
-def diferencia (n1: int, n2: int) -> int:
-    return -1

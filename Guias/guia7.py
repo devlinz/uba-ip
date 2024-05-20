@@ -284,4 +284,9 @@ def printMatriz(matriz: list[list[int]]) -> None:
     print (matrizATexto)
 #
 
-printMatriz(elevarMatrizCuadradada(matrizCuadradadaAleatoria(3, 1, 1), 1))
+import numpy
+
+matrix = numpy.random.randint(0,9,(5,5))
+printMatriz(matrix)
+matrix = matrix ** 2 # No se calcular multiplicacion de matrices ya
+printMatriz(matrix)

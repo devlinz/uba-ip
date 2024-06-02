@@ -158,19 +158,20 @@ p.put(3)
 # Ejercicio 11
 def esta_bien_balanceada (formula: str) -> bool:
     cantidad_caracteres = len(formula)
-    parentesis_abiertos: int = 0
+    parentesis_pendientes: int = 0
     for c in range(cantidad_caracteres):
         caracter: chr = formula[c] 
         if caracter == '(':
-            parentesis_abiertos += 1
+            parentesis_pendientes += 1
             continue
         if caracter == ')':
-            parentesis_abiertos -=1
-            if parentesis_abiertos < 0:
+            parentesis_pendientes -=1
+            if parentesis_pendientes < 0:
                 return False
-    return True
+    return parentesis_pendientes == 0
 
 # print(esta_bien_balanceada("1+(2*3)"))
 # print(esta_bien_balanceada("1+(2*3))"))
+# print(esta_bien_balanceada("(1+(2*3)"))
 
 # Ejercicio 12

@@ -1,4 +1,6 @@
 from queue import LifoQueue as Pila
+from queue import Queue as Cola
+import random
 # Archivos
 # Ejercicio 1
 # Aux
@@ -175,3 +177,142 @@ def esta_bien_balanceada (formula: str) -> bool:
 # print(esta_bien_balanceada("(1+(2*3)"))
 
 # Ejercicio 12
+# Requiere expresion bien formada
+def resultado_operacion (n1: float, n2: float, operacion: str) -> float:
+    if operacion == "+":
+        return n1 + n2
+    if operacion == "-":
+        return n1 - n2
+    if operacion == "*":
+        return n1 * n2
+    if operacion == "/":
+        return n1 / n2
+
+# Requiere expresion bien formada
+def dividir_en_tokens (expresion: str) -> list[str]:
+    tokens: list[str] = []
+    token_actual = ""
+    for c in expresion:
+        if c ==  " ":
+            tokens.append(token_actual)
+            token_actual = ""
+        else:
+            token_actual += c
+    if token_actual != "":
+        tokens.append(token_actual)
+    return tokens
+
+#print(dividir_en_tokens("3 4 + 5 * 2 -"))
+
+def evaluar_expresion (expresion: str) -> float:
+    tokens = dividir_en_tokens (expresion)
+    pila: Pila[float] = Pila()
+    for t in tokens:
+        if t == "+" or t == "-" or t == "*" or t == "/":
+            n2 = pila.get()
+            n1 = pila.get()
+            pila.put(resultado_operacion(n1,n2,t))
+        else:
+            pila.put(float(t))
+    return pila.get()
+
+#print(evaluar_expresion("3 4 + 5 * 2 -"))
+
+# Colas
+# 13
+def generar_nros_al_azar (cantidad: int, desde: int, hasta: int) -> Cola[int]:
+    nros: Cola[int] = Cola()
+    for _ in range(cantidad):
+        nros.put(random.randint(desde,hasta))
+    return nros
+#print(generar_nros_al_azar(100, 0, 99).queue)
+
+# 14
+def copiar_cola (cola: Cola) -> Cola:
+    aux: Cola = Cola()
+    copia: Cola = Cola()
+    while not cola.empty():
+        elemento = cola.get()
+        aux.put(elemento)
+        copia.put(elemento)
+    while not aux.empty():
+        cola.put(aux.get())
+    return copia()
+    
+
+def cantidad_elementos (c: Cola) -> int:
+    copia = copiar_cola(c)
+    longitud = 0
+    while not copia.empty():
+        longitud += 1
+    return longitud
+
+# 15
+def buscar_el_maximo (c: Cola[int]) -> int:
+    maximo_actual: int = c.get()
+    comparar: int
+    while not c.empty():
+        comparar = c.get()
+        if comparar > maximo_actual:
+            maximo_actual = comparar
+    return maximo_actual
+
+# 16
+# 1
+def pertence (elemento: int, lista: list[int]) -> bool:
+    for n in lista:
+        if elemento == n:
+            return True
+    return False
+
+def tomar_al_azar_sin_repetir (min: int, max: int, cantidad: int) -> list[int]:
+    nros: list[int] = []
+    for _ in range(cantidad):
+        n = random.randint(min,max)
+        while pertence (n, nros):
+            n = random.randint(min,max)
+            
+        nros.append(n)
+    return nros
+
+def armar_secuencia_de_bingo() -> Cola[int]:
+    nros = tomar_al_azar_sin_repetir(0,99,100)
+    cola: Cola[int] = Cola()
+    for i in range(len(nros)):
+        cola.put(nros[i])
+    return cola
+
+def jugar_carton_de_bingo (carton: list[int], bolillero: Cola[int]) -> int:
+    bolillas: int = 0
+    tachados: int = 0
+    while not bolillero.empty():
+        bolilla = bolillero.get()
+        bolillas += 1
+        for i in range(len(carton)):
+            if carton[i] == bolilla:
+                tachados += 1
+                break
+        if tachados == len(carton):
+            return bolillas
+        
+def probar_bingo() -> int:
+    carton = tomar_al_azar_sin_repetir(0,99,12)
+    secuencia = armar_secuencia_de_bingo()
+    #print(carton)
+    #print(secuencia.queue)
+    return jugar_carton_de_bingo(carton,secuencia)
+
+#print(probar_bingo())
+
+# Experimento
+def bingo_mas_rapido (partidas: int) -> int:
+    minimo = 100
+    for _ in range(partidas):
+        jugadas_necesarias = probar_bingo()
+        if jugadas_necesarias < minimo:
+            minimo = jugadas_necesarias
+    return minimo
+
+#print(bingo_mas_rapido(1000))
+
+# 17
